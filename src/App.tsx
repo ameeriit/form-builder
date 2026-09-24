@@ -1,5 +1,7 @@
+import { FormBuilder } from '@/pages/form-builder/FormBuilder';
+
 function App() {
-  return null;
+  return <FormBuilder />;
 }
 
 export default App;
