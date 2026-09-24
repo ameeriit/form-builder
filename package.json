@@ -1,5 +1,6 @@
 {
-  "name": "form-builder",
+  "name": "configurable-form-builder",
+  "description": "ConfigurableFormBuilder — compose and render forms from a shared configuration.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
