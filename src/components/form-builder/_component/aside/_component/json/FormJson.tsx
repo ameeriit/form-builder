@@ -22,6 +22,7 @@ export function FormJson({ fields, onImport }: FormJsonProps) {
     try {
       await navigator.clipboard.writeText(exported.json);
       setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
     }

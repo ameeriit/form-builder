@@ -20,6 +20,14 @@ function NumberRange({
   const maxIsTooSmall =
     field.min !== undefined && field.max !== undefined && field.max <= field.min;
 
+  function parseNumber(value: string): number | undefined {
+    if (value.trim() === '') {
+      return undefined;
+    }
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+
   return (
     <div className="field-card__range">
       <Input
@@ -27,11 +35,7 @@ function NumberRange({
         label="Min"
         inline
         value={field.min ?? ''}
-        onChange={(event) =>
-          onChange({
-            min: event.target.value === '' ? undefined : Number(event.target.value),
-          })
-        }
+        onChange={(event) => onChange({ min: parseNumber(event.target.value) })}
       />
       <Input
         variant="number"
@@ -39,11 +43,7 @@ function NumberRange({
         inline
         value={field.max ?? ''}
         error={maxIsTooSmall ? 'Max must be greater than min.' : undefined}
-        onChange={(event) =>
-          onChange({
-            max: event.target.value === '' ? undefined : Number(event.target.value),
-          })
-        }
+        onChange={(event) => onChange({ max: parseNumber(event.target.value) })}
       />
     </div>
   );

@@ -11,10 +11,6 @@ function parseField(value: unknown, ids: Set<string>): Field | null {
 
   const { id, type, label, required } = value;
 
-  if (typeof id !== 'string' || id === '' || ids.has(id)) {
-    return null;
-  }
-
   if (typeof label !== 'string' || typeof required !== 'boolean') {
     return null;
   }
@@ -23,17 +19,20 @@ function parseField(value: unknown, ids: Set<string>): Field | null {
     return null;
   }
 
-  ids.add(id);
+  const fieldId =
+    typeof id === 'string' && id.trim() !== '' && !ids.has(id) ? id : crypto.randomUUID();
+
+  ids.add(fieldId);
 
   if (type === 'text') {
-    return { id, type, label, required };
+    return { id: fieldId, type, label, required };
   }
 
   if (type === 'number') {
-    const field: NumberField = { id, type, label, required };
+    const field: NumberField = { id: fieldId, type, label, required };
 
     if (value.min !== undefined) {
-      if (typeof value.min !== 'number') {
+      if (typeof value.min !== 'number' || !Number.isFinite(value.min)) {
         return null;
       }
 
@@ -41,7 +40,7 @@ function parseField(value: unknown, ids: Set<string>): Field | null {
     }
 
     if (value.max !== undefined) {
-      if (typeof value.max !== 'number') {
+      if (typeof value.max !== 'number' || !Number.isFinite(value.max)) {
         return null;
       }
 
@@ -67,7 +66,7 @@ function parseField(value: unknown, ids: Set<string>): Field | null {
     fields.push(parsed);
   }
 
-  return { id, type, label, required, fields };
+  return { id: fieldId, type, label, required, fields };
 }
 
 function finiteNumber(value: number | undefined): number | undefined {

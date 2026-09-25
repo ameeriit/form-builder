@@ -9,10 +9,12 @@ import type { Field } from '@/components/form-builder/_component/field-builder/t
 export function usePreviewForm(fields: Field[]) {
   const [values, setValues] = useState<PreviewValues>({});
   const [touched, setTouched] = useState<PreviewTouched>({});
+  const [isSuccess, setIsSuccess] = useState(false);
   const errors = useMemo(() => validateFields(fields, values, touched), [fields, values, touched]);
 
   const handleChange = useCallback((id: string, value: string) => {
     setValues((current) => ({ ...current, [id]: value }));
+    setIsSuccess(false);
   }, []);
 
   const handleBlur = useCallback((id: string) => {
@@ -22,25 +24,27 @@ export function usePreviewForm(fields: Field[]) {
   const handleSubmit = useCallback(
     (event: SyntheticEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setTouched((current) => {
-        const next = { ...current };
 
-        function mark(items: Field[]) {
-          for (const field of items) {
-            next[field.id] = true;
+      const nextTouched: PreviewTouched = {};
 
-            if (field.type === 'group') {
-              mark(field.fields);
-            }
+      function mark(items: Field[]) {
+        for (const field of items) {
+          nextTouched[field.id] = true;
+
+          if (field.type === 'group') {
+            mark(field.fields);
           }
         }
+      }
 
-        mark(fields);
-        return next;
-      });
+      mark(fields);
+      setTouched(nextTouched);
+
+      const currentErrors = validateFields(fields, values, nextTouched);
+      setIsSuccess(Object.keys(currentErrors).length === 0);
     },
-    [fields],
+    [fields, values],
   );
 
-  return { values, errors, handleChange, handleBlur, handleSubmit };
+  return { values, errors, isSuccess, handleChange, handleBlur, handleSubmit };
 }

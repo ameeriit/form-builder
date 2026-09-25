@@ -9,7 +9,8 @@ type FormPreviewProps = {
 };
 
 export function FormPreview({ fields }: FormPreviewProps) {
-  const { values, errors, handleChange, handleBlur, handleSubmit } = usePreviewForm(fields);
+  const { values, errors, isSuccess, handleChange, handleBlur, handleSubmit } =
+    usePreviewForm(fields);
 
   return (
     <div className="preview-panel">
@@ -28,6 +29,11 @@ export function FormPreview({ fields }: FormPreviewProps) {
             />
           ))}
           <Button type="submit">Submit</Button>
+          {isSuccess ? (
+            <p className="preview-panel__success" role="status">
+              Form submitted successfully!
+            </p>
+          ) : null}
         </form>
       )}
     </div>
