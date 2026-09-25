@@ -1,0 +1,10 @@
+.form-json {
+  margin: 0;
+  padding: 0.75rem;
+  overflow: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
+  border-radius: 0.5rem;
+}

@@ -1,12 +1,12 @@
+import { PreviewField } from '@/components/form-builder/_component/aside/_component/preview/_component/PreviewField';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
-import { PreviewField } from '@/components/form-builder/_component/preview/_component/PreviewField';
-import '@/components/form-builder/_component/preview/FormPreview.css';
+import '@/components/form-builder/_component/aside/_component/preview/FormPreview.css';
 import { type SyntheticEvent, useState } from 'react';
 import {
   type PreviewErrors,
   type PreviewValues,
   validateFields,
-} from '@/components/form-builder/_component/preview/preview-fields';
+} from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
 
 type FormPreviewProps = {
   fields: Field[];
@@ -32,8 +32,7 @@ export function FormPreview({ fields }: FormPreviewProps) {
   }
 
   return (
-    <section className="preview-panel" aria-labelledby="preview-heading">
-      <h2 id="preview-heading">Preview</h2>
+    <div className="preview-panel">
       {fields.length === 0 ? (
         <p className="preview-panel__empty">Add a field to preview the form.</p>
       ) : (
@@ -49,6 +48,6 @@ export function FormPreview({ fields }: FormPreviewProps) {
           ))}
         </form>
       )}
-    </section>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
+import type { PreviewValues } from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
-import type { PreviewValues } from '@/components/form-builder/_component/preview/preview-fields';
 
 type PreviewFieldProps = {
   field: Field;

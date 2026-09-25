@@ -28,7 +28,7 @@
     border-bottom: none;
   }
 
-  .form-builder__layout > .preview-panel {
+  .form-builder__layout > .builder-aside {
     padding-top: 0;
   }
 }

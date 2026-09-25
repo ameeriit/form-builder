@@ -3,11 +3,6 @@
   font-size: 0.875rem;
 }
 
-.preview-panel h2 {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-}
-
 .preview-panel__empty,
 .preview-field__empty,
 .preview-field__error,
