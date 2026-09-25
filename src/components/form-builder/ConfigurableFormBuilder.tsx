@@ -5,7 +5,7 @@ import { FormBuilderHeader } from '@/components/form-builder/_component/header/F
 import '@/components/form-builder/FormBuilder.css';
 import { Container } from '@/components/ui/Container';
 
-export function FormBuilder() {
+export function ConfigurableFormBuilder() {
   return (
     <main>
       <Container>
@@ -22,3 +22,5 @@ export function FormBuilder() {
     </main>
   );
 }
+
+export default ConfigurableFormBuilder;

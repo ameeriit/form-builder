@@ -1,7 +1,7 @@
-import { FormBuilder } from '@/components/form-builder/FormBuilder';
+import { ConfigurableFormBuilder } from '@/components/form-builder';
 
 function App() {
-  return <FormBuilder />;
+  return <ConfigurableFormBuilder />;
 }
 
 export default App;
