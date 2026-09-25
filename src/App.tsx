@@ -1,4 +1,4 @@
-import { FormBuilder } from '@/pages/form-builder/FormBuilder';
+import { FormBuilder } from '@/components/form-builder/FormBuilder';
 
 function App() {
   return <FormBuilder />;

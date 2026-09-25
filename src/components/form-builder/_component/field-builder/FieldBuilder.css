@@ -1,0 +1,127 @@
+.builder-panel {
+  max-width: 24rem;
+  font-size: 0.875rem;
+}
+
+.builder-panel h2 {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+
+.builder-panel__count {
+  margin: 0 0 1.25rem;
+}
+
+.field-card__actions,
+.field-card__range,
+.field-list__add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.builder-panel__fields {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.builder-panel button,
+.field-card input[type="text"],
+.field-card input[type="number"] {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+  border-radius: 0.35rem;
+}
+
+.builder-panel button {
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+}
+
+.field-card input[type="text"],
+.field-card input[type="number"] {
+  padding: 0.3rem 0.55rem;
+}
+
+.field-card__main {
+  display: flex;
+  flex: 1;
+  gap: 0.65rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.field-card__main input {
+  flex: 1;
+  min-width: 0;
+}
+
+.field-card__range {
+  gap: 1rem;
+}
+
+.field-card__range input {
+  width: 5rem;
+}
+
+.field-card {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.75rem;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
+  border-radius: 0.5rem;
+}
+
+.field-card__header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.field-card__actions {
+  margin-left: auto;
+}
+
+.field-card__type {
+  padding: 0.3rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  text-transform: capitalize;
+  background: #000;
+  border: 1px solid #000;
+  border-radius: 0.35rem;
+}
+
+.field-card__check,
+.field-card__range label {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.field-card__children {
+  display: grid;
+  gap: 0.75rem;
+  margin-left: 0.35rem;
+  padding-top: 0.25rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid color-mix(in srgb, var(--color-text) 35%, transparent);
+}
+
+.builder-panel button:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.field-card__empty {
+  margin: 0;
+  font-style: italic;
+}
