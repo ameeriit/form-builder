@@ -70,6 +70,61 @@ function parseField(value: unknown, ids: Set<string>): Field | null {
   return { id, type, label, required, fields };
 }
 
+function finiteNumber(value: number | undefined): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function exportField(field: Field, problems: string[]): Field {
+  if (field.type === 'text') {
+    return { id: field.id, type: field.type, label: field.label, required: field.required };
+  }
+
+  if (field.type === 'number') {
+    const next: NumberField = {
+      id: field.id,
+      type: field.type,
+      label: field.label,
+      required: field.required,
+    };
+    const min = finiteNumber(field.min);
+    const max = finiteNumber(field.max);
+
+    if (min !== undefined && max !== undefined && min > max) {
+      problems.push('Min is greater than max, so those values were left out of the export.');
+      return next;
+    }
+
+    if (min !== undefined) {
+      next.min = min;
+    }
+
+    if (max !== undefined) {
+      next.max = max;
+    }
+
+    return next;
+  }
+
+  return {
+    id: field.id,
+    type: field.type,
+    label: field.label,
+    required: field.required,
+    fields: field.fields.map((child) => exportField(child, problems)),
+  };
+}
+
+export function exportConfig(fields: Field[]): { json: string; problem: string } {
+  const problems: string[] = [];
+  const json = JSON.stringify(
+    { fields: fields.map((field) => exportField(field, problems)) },
+    null,
+    2,
+  );
+
+  return { json, problem: problems[0] ?? '' };
+}
+
 export function parseFields(text: string): { fields: Field[] } | { error: string } {
   let data: unknown;
 

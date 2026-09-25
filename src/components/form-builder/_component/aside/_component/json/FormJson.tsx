@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { parseFields } from '@/components/form-builder/_component/aside/_component/json/json-fields';
+import {
+  exportConfig,
+  parseFields,
+} from '@/components/form-builder/_component/aside/_component/json/json-fields';
 import '@/components/form-builder/_component/aside/_component/json/FormJson.css';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
 
@@ -12,11 +15,11 @@ export function FormJson({ fields, onImport }: FormJsonProps) {
   const [importText, setImportText] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
-  const exported = JSON.stringify({ fields }, null, 2);
+  const exported = exportConfig(fields);
 
   async function handleCopy() {
     try {
-      await navigator.clipboard.writeText(exported);
+      await navigator.clipboard.writeText(exported.json);
       setCopied(true);
     } catch {
       setCopied(false);
@@ -42,10 +45,11 @@ export function FormJson({ fields, onImport }: FormJsonProps) {
         <div className="form-json__heading">
           <h2 id="json-export-heading">Export</h2>
           <button type="button" onClick={handleCopy}>
-            {copied ? 'Copied' : 'Copy JSON'}
+            {copied ? 'Copied' : 'Export'}
           </button>
         </div>
-        <pre>{exported}</pre>
+        <textarea readOnly aria-label="Exported form configuration" value={exported.json} />
+        {exported.problem ? <p className="form-json__error">{exported.problem}</p> : null}
       </section>
       <section className="form-json__section" aria-labelledby="json-import-heading">
         <h2 id="json-import-heading">Import</h2>

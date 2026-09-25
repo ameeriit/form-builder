@@ -6,19 +6,33 @@ type PreviewFieldProps = {
   values: PreviewValues;
   errors: PreviewValues;
   onChange: (id: string, value: string) => void;
+  onBlur: (id: string) => void;
 };
 
-export function PreviewField({ field, values, errors, onChange }: PreviewFieldProps) {
+export function PreviewField({ field, values, errors, onChange, onBlur }: PreviewFieldProps) {
   const label = field.label.trim() === '' ? 'Untitled' : field.label;
   const error = errors[field.id];
 
   if (field.type === 'group') {
     return (
-      <fieldset className="preview-field preview-field--group">
+      <fieldset
+        className="preview-field preview-field--group"
+        aria-describedby={error ? `${field.id}-error` : undefined}
+      >
         <legend>
           {label}
-          {field.required ? <span aria-hidden="true"> *</span> : null}
+          {field.required ? (
+            <span className="preview-field__required" aria-hidden="true">
+              {' '}
+              *
+            </span>
+          ) : null}
         </legend>
+        {error ? (
+          <p id={`${field.id}-error`} className="preview-field__error">
+            {error}
+          </p>
+        ) : null}
         <div className="preview-field__children">
           {field.fields.length === 0 ? (
             <p className="preview-field__empty">No fields in this group.</p>
@@ -30,6 +44,7 @@ export function PreviewField({ field, values, errors, onChange }: PreviewFieldPr
               values={values}
               errors={errors}
               onChange={onChange}
+              onBlur={onBlur}
             />
           ))}
         </div>
@@ -41,16 +56,21 @@ export function PreviewField({ field, values, errors, onChange }: PreviewFieldPr
     <div className="preview-field">
       <label htmlFor={field.id}>
         {label}
-        {field.required ? <span aria-hidden="true"> *</span> : null}
+        {field.required ? (
+          <span className="preview-field__required" aria-hidden="true">
+            {' '}
+            *
+          </span>
+        ) : null}
       </label>
       <input
         id={field.id}
         type="text"
-        inputMode={field.type === 'number' ? 'decimal' : 'text'}
         value={values[field.id] ?? ''}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${field.id}-error` : undefined}
         onChange={(event) => onChange(field.id, event.target.value)}
+        onBlur={() => onBlur(field.id)}
       />
       {error ? (
         <p id={`${field.id}-error`} className="preview-field__error">

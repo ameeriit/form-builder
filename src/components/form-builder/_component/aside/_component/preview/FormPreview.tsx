@@ -1,9 +1,10 @@
 import { PreviewField } from '@/components/form-builder/_component/aside/_component/preview/_component/PreviewField';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
 import '@/components/form-builder/_component/aside/_component/preview/FormPreview.css';
-import { type SyntheticEvent, useState } from 'react';
+import { type SyntheticEvent, useEffect, useState } from 'react';
 import {
   type PreviewErrors,
+  type PreviewTouched,
   type PreviewValues,
   validateFields,
 } from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
@@ -15,20 +16,38 @@ type FormPreviewProps = {
 export function FormPreview({ fields }: FormPreviewProps) {
   const [values, setValues] = useState<PreviewValues>({});
   const [errors, setErrors] = useState<PreviewErrors>({});
+  const [touched, setTouched] = useState<PreviewTouched>({});
+
+  useEffect(() => {
+    setErrors(validateFields(fields, values, touched));
+  }, [fields, values, touched]);
 
   function handleChange(id: string, value: string) {
-    const nextValues = { ...values, [id]: value };
-    setValues(nextValues);
+    setValues((current) => ({ ...current, [id]: value }));
+  }
 
-    if (errors[id]) {
-      setErrors(validateFields(fields, nextValues));
-    }
+  function handleBlur(id: string) {
+    setTouched((current) => ({ ...current, [id]: true }));
   }
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-    const nextErrors = validateFields(fields, values);
-    setErrors(nextErrors);
+    setTouched((current) => {
+      const next = { ...current };
+
+      function mark(items: Field[]) {
+        for (const field of items) {
+          next[field.id] = true;
+
+          if (field.type === 'group') {
+            mark(field.fields);
+          }
+        }
+      }
+
+      mark(fields);
+      return next;
+    });
   }
 
   return (
@@ -44,8 +63,10 @@ export function FormPreview({ fields }: FormPreviewProps) {
               values={values}
               errors={errors}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
           ))}
+          <button type="submit">Submit</button>
         </form>
       )}
     </div>

@@ -23,7 +23,6 @@
   text-transform: uppercase;
 }
 
-.form-json pre,
 .form-json textarea {
   margin: 0;
   padding: 0.75rem;
@@ -36,14 +35,13 @@
   border-radius: 0.5rem;
 }
 
-.form-json pre {
-  max-height: 16rem;
-  overflow: auto;
-}
-
 .form-json textarea {
   min-height: 10rem;
   resize: vertical;
+}
+
+.form-json textarea[readonly] {
+  resize: none;
 }
 
 .form-json button {
