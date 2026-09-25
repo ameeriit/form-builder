@@ -20,16 +20,21 @@ export function Tabs({ label, tabs }: TabsProps) {
   return (
     <div className="tabs">
       <div className="tabs__list" role="tablist" aria-label={label}>
-        {tabs.map((tab) => (
-          <Button
-            key={tab.id}
-            role="tab"
-            aria-selected={tab.id === selected?.id}
-            onClick={() => setSelectedId(tab.id)}
-          >
-            {tab.label}
-          </Button>
-        ))}
+        {tabs.map((tab) => {
+          const isSelected = tab.id === selected?.id;
+
+          return (
+            <Button
+              key={tab.id}
+              role="tab"
+              variant={isSelected ? 'primary' : 'default'}
+              aria-selected={isSelected}
+              onClick={() => setSelectedId(tab.id)}
+            >
+              {tab.label}
+            </Button>
+          );
+        })}
       </div>
       <div role="tabpanel">{selected?.content}</div>
     </div>
