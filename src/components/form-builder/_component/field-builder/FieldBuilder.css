@@ -57,25 +57,26 @@
   min-width: 0;
 }
 
-.field-card__main input {
+.field-card__main input,
+.field-card__main .input-field {
   flex: 1 1 10rem;
   width: 10rem;
   min-width: 8rem;
 }
 
+.field-card__main .input-control {
+  width: 100%;
+}
+
 .field-card__range {
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+  align-items: flex-start;
 }
 
-.field-card__error {
-  flex-basis: 100%;
-  margin: 0;
-  font-size: 0.75rem;
-  font-style: italic;
-  color: #c62828;
-}
-
-.field-card__range input {
+.field-card__range input,
+.field-card__range .input-control {
   width: 5rem;
 }
 

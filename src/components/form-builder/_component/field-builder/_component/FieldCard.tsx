@@ -8,6 +8,7 @@ import type {
   NumberField,
 } from '@/components/form-builder/_component/field-builder/types';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 function NumberRange({
   field,
@@ -21,37 +22,29 @@ function NumberRange({
 
   return (
     <div className="field-card__range">
-      <label>
-        Min
-        <input
-          type="number"
-          value={field.min ?? ''}
-          onChange={(event) =>
-            onChange({
-              min: event.target.value === '' ? undefined : Number(event.target.value),
-            })
-          }
-        />
-      </label>
-      <label>
-        Max
-        <input
-          type="number"
-          value={field.max ?? ''}
-          aria-invalid={maxIsTooSmall || undefined}
-          aria-describedby={maxIsTooSmall ? `${field.id}-max-error` : undefined}
-          onChange={(event) =>
-            onChange({
-              max: event.target.value === '' ? undefined : Number(event.target.value),
-            })
-          }
-        />
-      </label>
-      {maxIsTooSmall ? (
-        <p id={`${field.id}-max-error`} className="field-card__error">
-          Max must be greater than min.
-        </p>
-      ) : null}
+      <Input
+        variant="number"
+        label="Min"
+        inline
+        value={field.min ?? ''}
+        onChange={(event) =>
+          onChange({
+            min: event.target.value === '' ? undefined : Number(event.target.value),
+          })
+        }
+      />
+      <Input
+        variant="number"
+        label="Max"
+        inline
+        value={field.max ?? ''}
+        error={maxIsTooSmall ? 'Max must be greater than min.' : undefined}
+        onChange={(event) =>
+          onChange({
+            max: event.target.value === '' ? undefined : Number(event.target.value),
+          })
+        }
+      />
     </div>
   );
 }
@@ -78,8 +71,8 @@ export const FieldCard = memo(function FieldCard({
         <div className="field-card__main">
           {field.type === 'group' ? <span aria-hidden="true">▾</span> : null}
           <span className="field-card__type">{field.type}</span>
-          <input
-            type="text"
+          <Input
+            variant="text"
             value={field.label}
             aria-label="Label"
             onChange={(event) => editField(field.id, { label: event.target.value })}
@@ -108,14 +101,12 @@ export const FieldCard = memo(function FieldCard({
         </div>
       </header>
 
-      <label className="field-card__check">
-        <input
-          type="checkbox"
-          checked={field.required}
-          onChange={(event) => editField(field.id, { required: event.target.checked })}
-        />
-        Required
-      </label>
+      <Input
+        variant="checkbox"
+        label="Required"
+        checked={field.required}
+        onChange={(event) => editField(field.id, { required: event.target.checked })}
+      />
 
       {field.type === 'number' ? (
         <NumberRange field={field} onChange={(patch) => editField(field.id, patch)} />

@@ -1,0 +1,77 @@
+.input-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.input-field--inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.input-field--checkbox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.input-field__checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  user-select: none;
+}
+
+.input-field__label {
+  font: inherit;
+  color: inherit;
+}
+
+.input-field__required,
+.input-field__error {
+  color: #c62828;
+}
+
+.input-field__error {
+  margin: 0;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.input-field--inline .input-field__error {
+  flex-basis: 100%;
+}
+
+.input-control {
+  padding: 0.3rem 0.55rem;
+  font: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+  border-radius: 0.35rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.input-control[aria-invalid="true"] {
+  border-color: #c62828;
+}
+
+.input-control--checkbox {
+  width: auto;
+  padding: 0;
+  cursor: pointer;
+  accent-color: #000;
+}

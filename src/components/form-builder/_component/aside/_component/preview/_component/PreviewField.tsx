@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import type { PreviewValues } from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
+import { Input } from '@/components/ui/Input';
 
 type PreviewFieldProps = {
   field: Field;
@@ -79,30 +80,16 @@ export const PreviewField = memo(function PreviewField({
   }
 
   return (
-    <div className="preview-field">
-      <label htmlFor={field.id}>
-        {label}
-        {field.required ? (
-          <span className="preview-field__required" aria-hidden="true">
-            {' '}
-            *
-          </span>
-        ) : null}
-      </label>
-      <input
-        id={field.id}
-        type="text"
-        value={values[field.id] ?? ''}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? `${field.id}-error` : undefined}
-        onChange={(event) => onChange(field.id, event.target.value)}
-        onBlur={() => onBlur(field.id)}
-      />
-      {error ? (
-        <p id={`${field.id}-error`} className="preview-field__error">
-          {error}
-        </p>
-      ) : null}
-    </div>
+    <Input
+      id={field.id}
+      variant={field.type}
+      type="text"
+      label={label}
+      isRequired={field.required}
+      value={values[field.id] ?? ''}
+      error={error}
+      onChange={(event) => onChange(field.id, event.target.value)}
+      onBlur={() => onBlur(field.id)}
+    />
   );
 }, previewFieldPropsAreEqual);
