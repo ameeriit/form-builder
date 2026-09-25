@@ -15,10 +15,9 @@
   margin: 0;
 }
 
-.preview-panel__form,
-.preview-field--group {
+.preview-panel__form {
   display: grid;
-  gap: 0.85rem;
+  gap: 1.25rem;
 }
 
 .preview-field {
@@ -30,13 +29,13 @@
 .preview-panel button {
   font: inherit;
   color: inherit;
-  background: transparent;
   border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
   border-radius: 0.35rem;
 }
 
 .preview-field input {
   padding: 0.3rem 0.55rem;
+  background: #fff;
 }
 
 .preview-panel button {
@@ -48,15 +47,28 @@
 .preview-field--group {
   min-width: 0;
   max-width: 100%;
+  min-inline-size: 0;
+  gap: 0.45rem;
   margin: 0;
-  padding: 0.75rem 0 0.75rem 0.85rem;
-  border: none;
-  border-left: 2px solid color-mix(in srgb, var(--color-text) 35%, transparent);
+  padding: 0.75rem;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
+  border-radius: 0.5rem;
 }
 
 .preview-field--group legend {
-  padding-right: 0.35rem;
+  padding: 0;
   font-weight: 600;
+}
+
+.preview-field__children {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  margin-top: 0.15rem;
+  padding: 0.75rem;
+  background: var(--color-bg);
+  border-radius: 0.4rem;
 }
 
 .preview-field__error {

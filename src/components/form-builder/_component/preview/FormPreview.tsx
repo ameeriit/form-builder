@@ -1,7 +1,7 @@
-import { type FormEvent, useState } from 'react';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
 import { PreviewField } from '@/components/form-builder/_component/preview/_component/PreviewField';
 import '@/components/form-builder/_component/preview/FormPreview.css';
+import { type SyntheticEvent, useState } from 'react';
 import {
   type PreviewErrors,
   type PreviewValues,
@@ -15,7 +15,6 @@ type FormPreviewProps = {
 export function FormPreview({ fields }: FormPreviewProps) {
   const [values, setValues] = useState<PreviewValues>({});
   const [errors, setErrors] = useState<PreviewErrors>({});
-  const [submitted, setSubmitted] = useState(false);
 
   function handleChange(id: string, value: string) {
     const nextValues = { ...values, [id]: value };
@@ -26,11 +25,10 @@ export function FormPreview({ fields }: FormPreviewProps) {
     }
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextErrors = validateFields(fields, values);
     setErrors(nextErrors);
-    setSubmitted(Object.keys(nextErrors).length === 0);
   }
 
   return (
@@ -49,8 +47,6 @@ export function FormPreview({ fields }: FormPreviewProps) {
               onChange={handleChange}
             />
           ))}
-          <button type="submit">Submit</button>
-          {submitted ? <p className="preview-panel__success">Form is valid.</p> : null}
         </form>
       )}
     </section>

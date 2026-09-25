@@ -19,18 +19,20 @@ export function PreviewField({ field, values, errors, onChange }: PreviewFieldPr
           {label}
           {field.required ? <span aria-hidden="true"> *</span> : null}
         </legend>
-        {field.fields.length === 0 ? (
-          <p className="preview-field__empty">No fields in this group.</p>
-        ) : null}
-        {field.fields.map((child) => (
-          <PreviewField
-            key={child.id}
-            field={child}
-            values={values}
-            errors={errors}
-            onChange={onChange}
-          />
-        ))}
+        <div className="preview-field__children">
+          {field.fields.length === 0 ? (
+            <p className="preview-field__empty">No fields in this group.</p>
+          ) : null}
+          {field.fields.map((child) => (
+            <PreviewField
+              key={child.id}
+              field={child}
+              values={values}
+              errors={errors}
+              onChange={onChange}
+            />
+          ))}
+        </div>
       </fieldset>
     );
   }
