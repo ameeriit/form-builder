@@ -7,8 +7,7 @@ import type {
   FieldType,
   NumberField,
 } from '@/components/form-builder/_component/field-builder/types';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import { Button, Input } from '@/components/ui';
 
 function NumberRange({
   field,

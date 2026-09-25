@@ -1,6 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import '@/components/ui/tabs/Tabs.css';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button/Button';
 
 type TabItem = {
   id: string;

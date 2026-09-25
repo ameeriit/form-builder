@@ -6,7 +6,7 @@ import {
   useFieldActions,
   useFields,
 } from '@/components/form-builder/_component/field-builder/FieldBuilderProvider';
-import { Tabs } from '@/components/ui/tabs/Tabs';
+import { Tabs } from '@/components/ui';
 
 export function FormBuilderAside() {
   const fields = useFields();

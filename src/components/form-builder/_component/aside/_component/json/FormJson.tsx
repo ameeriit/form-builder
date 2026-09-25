@@ -5,7 +5,7 @@ import {
 } from '@/components/form-builder/_component/aside/_component/json/json-fields';
 import '@/components/form-builder/_component/aside/_component/json/FormJson.css';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 
 type FormJsonProps = {
   fields: Field[];

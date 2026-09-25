@@ -3,7 +3,7 @@ import { FieldBuilder } from '@/components/form-builder/_component/field-builder
 import { FieldBuilderProvider } from '@/components/form-builder/_component/field-builder/FieldBuilderProvider';
 import { FormBuilderHeader } from '@/components/form-builder/_component/header/FormBuilderHeader';
 import '@/components/form-builder/ConfigurableFormBuilder.css';
-import { Container } from '@/components/ui/Container';
+import { Container } from '@/components/ui';
 
 export function ConfigurableFormBuilder() {
   return (

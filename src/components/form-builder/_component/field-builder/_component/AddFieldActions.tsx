@@ -1,5 +1,5 @@
 import type { FieldType } from '@/components/form-builder/_component/field-builder/types';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 
 const fieldTypes: FieldType[] = ['text', 'number', 'group'];
 

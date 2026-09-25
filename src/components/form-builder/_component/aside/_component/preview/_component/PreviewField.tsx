@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { PreviewValues } from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui';
 
 type PreviewFieldProps = {
   field: Field;
