@@ -1,0 +1,68 @@
+.preview-panel {
+  min-width: 0;
+  font-size: 0.875rem;
+}
+
+.preview-panel h2 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.preview-panel__empty,
+.preview-field__empty,
+.preview-field__error,
+.preview-panel__success {
+  margin: 0;
+}
+
+.preview-panel__form,
+.preview-field--group {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.preview-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.preview-field input,
+.preview-panel button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+  border-radius: 0.35rem;
+}
+
+.preview-field input {
+  padding: 0.3rem 0.55rem;
+}
+
+.preview-panel button {
+  justify-self: start;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+}
+
+.preview-field--group {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.75rem 0 0.75rem 0.85rem;
+  border: none;
+  border-left: 2px solid color-mix(in srgb, var(--color-text) 35%, transparent);
+}
+
+.preview-field--group legend {
+  padding-right: 0.35rem;
+  font-weight: 600;
+}
+
+.preview-field__error {
+  font-style: italic;
+}
+
+.preview-field__empty {
+  font-style: italic;
+}

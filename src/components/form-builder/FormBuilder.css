@@ -1,3 +1,34 @@
 .form-builder {
   padding-block: 1.5rem;
 }
+
+.form-builder__layout {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+.form-builder__layout > .builder-panel {
+  min-width: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+}
+
+@media (min-width: 64rem) {
+  .form-builder__layout {
+    grid-template-columns: minmax(24rem, max-content) minmax(16rem, 1fr);
+  }
+
+  .form-builder__layout > .builder-panel {
+    min-width: 24rem;
+    max-width: none;
+    padding-right: 1.5rem;
+    padding-bottom: 0;
+    border-right: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+    border-bottom: none;
+  }
+
+  .form-builder__layout > .preview-panel {
+    padding-top: 0;
+  }
+}
