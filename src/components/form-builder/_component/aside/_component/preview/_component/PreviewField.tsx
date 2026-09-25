@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { PreviewValues } from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
 
@@ -9,7 +10,32 @@ type PreviewFieldProps = {
   onBlur: (id: string) => void;
 };
 
-export function PreviewField({ field, values, errors, onChange, onBlur }: PreviewFieldProps) {
+function previewFieldPropsAreEqual(previous: PreviewFieldProps, next: PreviewFieldProps) {
+  if (
+    previous.field !== next.field ||
+    previous.onChange !== next.onChange ||
+    previous.onBlur !== next.onBlur
+  ) {
+    return false;
+  }
+
+  if (previous.field.type === 'group') {
+    return previous.values === next.values && previous.errors === next.errors;
+  }
+
+  return (
+    previous.values[previous.field.id] === next.values[next.field.id] &&
+    previous.errors[previous.field.id] === next.errors[next.field.id]
+  );
+}
+
+export const PreviewField = memo(function PreviewField({
+  field,
+  values,
+  errors,
+  onChange,
+  onBlur,
+}: PreviewFieldProps) {
   const label = field.label.trim() === '' ? 'Untitled' : field.label;
   const error = errors[field.id];
 
@@ -79,4 +105,4 @@ export function PreviewField({ field, values, errors, onChange, onBlur }: Previe
       ) : null}
     </div>
   );
-}
+}, previewFieldPropsAreEqual);

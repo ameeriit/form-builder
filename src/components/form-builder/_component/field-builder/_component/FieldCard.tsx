@@ -1,31 +1,24 @@
+import { memo, useCallback } from 'react';
 import { AddFieldActions } from '@/components/form-builder/_component/field-builder/_component/AddFieldActions';
-import type {
-  Field,
-  FieldPatch,
-  FieldType,
-} from '@/components/form-builder/_component/field-builder/types';
+import { useFieldActions } from '@/components/form-builder/_component/field-builder/FieldBuilderProvider';
+import type { Field, FieldType } from '@/components/form-builder/_component/field-builder/types';
 
 type FieldCardProps = {
   field: Field;
   index: number;
   count: number;
   nested?: boolean;
-  onUpdate: (id: string, patch: FieldPatch) => void;
-  onRemove: (id: string) => void;
-  onMove: (id: string, direction: -1 | 1) => void;
-  onAdd: (parentId: string, type: FieldType) => void;
 };
 
-export function FieldCard({
+export const FieldCard = memo(function FieldCard({
   field,
   index,
   count,
   nested = false,
-  onUpdate,
-  onRemove,
-  onMove,
-  onAdd,
 }: FieldCardProps) {
+  const { editField, deleteField, reorderField, addField } = useFieldActions();
+  const addChild = useCallback((type: FieldType) => addField(field.id, type), [addField, field.id]);
+
   return (
     <article className={nested ? 'field-card field-card--nested' : 'field-card'}>
       <header className="field-card__header">
@@ -36,7 +29,7 @@ export function FieldCard({
             type="text"
             value={field.label}
             aria-label="Label"
-            onChange={(event) => onUpdate(field.id, { label: event.target.value })}
+            onChange={(event) => editField(field.id, { label: event.target.value })}
           />
         </div>
         <div className="field-card__actions">
@@ -44,7 +37,7 @@ export function FieldCard({
             type="button"
             aria-label="Move up"
             disabled={index === 0}
-            onClick={() => onMove(field.id, -1)}
+            onClick={() => reorderField(field.id, -1)}
           >
             ↑
           </button>
@@ -52,11 +45,11 @@ export function FieldCard({
             type="button"
             aria-label="Move down"
             disabled={index === count - 1}
-            onClick={() => onMove(field.id, 1)}
+            onClick={() => reorderField(field.id, 1)}
           >
             ↓
           </button>
-          <button type="button" aria-label="Delete" onClick={() => onRemove(field.id)}>
+          <button type="button" aria-label="Delete" onClick={() => deleteField(field.id)}>
             ×
           </button>
         </div>
@@ -66,7 +59,7 @@ export function FieldCard({
         <input
           type="checkbox"
           checked={field.required}
-          onChange={(event) => onUpdate(field.id, { required: event.target.checked })}
+          onChange={(event) => editField(field.id, { required: event.target.checked })}
         />
         Required
       </label>
@@ -79,7 +72,7 @@ export function FieldCard({
               type="number"
               value={field.min ?? ''}
               onChange={(event) =>
-                onUpdate(field.id, {
+                editField(field.id, {
                   min: event.target.value === '' ? undefined : Number(event.target.value),
                 })
               }
@@ -91,7 +84,7 @@ export function FieldCard({
               type="number"
               value={field.max ?? ''}
               onChange={(event) =>
-                onUpdate(field.id, {
+                editField(field.id, {
                   max: event.target.value === '' ? undefined : Number(event.target.value),
                 })
               }
@@ -110,15 +103,11 @@ export function FieldCard({
               index={childIndex}
               count={field.fields.length}
               nested
-              onUpdate={onUpdate}
-              onRemove={onRemove}
-              onMove={onMove}
-              onAdd={onAdd}
             />
           ))}
-          <AddFieldActions onAdd={(type) => onAdd(field.id, type)} />
+          <AddFieldActions onAdd={addChild} />
         </div>
       ) : null}
     </article>
   );
-}
+});

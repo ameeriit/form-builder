@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   exportConfig,
   parseFields,
@@ -15,7 +15,7 @@ export function FormJson({ fields, onImport }: FormJsonProps) {
   const [importText, setImportText] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
-  const exported = exportConfig(fields);
+  const exported = useMemo(() => exportConfig(fields), [fields]);
 
   async function handleCopy() {
     try {

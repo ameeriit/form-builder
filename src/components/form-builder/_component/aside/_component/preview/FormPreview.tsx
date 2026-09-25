@@ -1,54 +1,14 @@
 import { PreviewField } from '@/components/form-builder/_component/aside/_component/preview/_component/PreviewField';
+import { usePreviewForm } from '@/components/form-builder/_component/aside/_component/preview/usePreviewForm';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
 import '@/components/form-builder/_component/aside/_component/preview/FormPreview.css';
-import { type SyntheticEvent, useEffect, useState } from 'react';
-import {
-  type PreviewErrors,
-  type PreviewTouched,
-  type PreviewValues,
-  validateFields,
-} from '@/components/form-builder/_component/aside/_component/preview/preview-fields';
 
 type FormPreviewProps = {
   fields: Field[];
 };
 
 export function FormPreview({ fields }: FormPreviewProps) {
-  const [values, setValues] = useState<PreviewValues>({});
-  const [errors, setErrors] = useState<PreviewErrors>({});
-  const [touched, setTouched] = useState<PreviewTouched>({});
-
-  useEffect(() => {
-    setErrors(validateFields(fields, values, touched));
-  }, [fields, values, touched]);
-
-  function handleChange(id: string, value: string) {
-    setValues((current) => ({ ...current, [id]: value }));
-  }
-
-  function handleBlur(id: string) {
-    setTouched((current) => ({ ...current, [id]: true }));
-  }
-
-  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setTouched((current) => {
-      const next = { ...current };
-
-      function mark(items: Field[]) {
-        for (const field of items) {
-          next[field.id] = true;
-
-          if (field.type === 'group') {
-            mark(field.fields);
-          }
-        }
-      }
-
-      mark(fields);
-      return next;
-    });
-  }
+  const { values, errors, handleChange, handleBlur, handleSubmit } = usePreviewForm(fields);
 
   return (
     <div className="preview-panel">

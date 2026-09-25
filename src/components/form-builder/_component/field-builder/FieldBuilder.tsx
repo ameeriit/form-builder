@@ -1,36 +1,28 @@
+import { useCallback } from 'react';
 import { AddFieldActions } from '@/components/form-builder/_component/field-builder/_component/AddFieldActions';
 import { FieldCard } from '@/components/form-builder/_component/field-builder/_component/FieldCard';
+import {
+  useFieldActions,
+  useFields,
+} from '@/components/form-builder/_component/field-builder/FieldBuilderProvider';
 import '@/components/form-builder/_component/field-builder/FieldBuilder.css';
-import type { useFieldBuilder } from '@/components/form-builder/_component/field-builder/useFieldBuilder';
+import type { FieldType } from '@/components/form-builder/_component/field-builder/types';
 
-type FieldBuilderProps = ReturnType<typeof useFieldBuilder>;
+export function FieldBuilder() {
+  const fields = useFields();
+  const { addField } = useFieldActions();
+  const addRootField = useCallback((type: FieldType) => addField(null, type), [addField]);
 
-export function FieldBuilder({
-  fields,
-  addField,
-  editField,
-  deleteField,
-  reorderField,
-}: FieldBuilderProps) {
   return (
     <section className="builder-panel" aria-labelledby="fields-heading">
       <h2 id="fields-heading">Fields</h2>
       <p className="builder-panel__count">{fields.length} root fields</p>
       <div className="builder-panel__fields">
         {fields.map((field, index) => (
-          <FieldCard
-            key={field.id}
-            field={field}
-            index={index}
-            count={fields.length}
-            onUpdate={editField}
-            onRemove={deleteField}
-            onMove={reorderField}
-            onAdd={addField}
-          />
+          <FieldCard key={field.id} field={field} index={index} count={fields.length} />
         ))}
       </div>
-      <AddFieldActions onAdd={(type) => addField(null, type)} />
+      <AddFieldActions onAdd={addRootField} />
     </section>
   );
 }

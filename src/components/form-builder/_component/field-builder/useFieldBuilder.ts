@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   createField,
   insertField,
@@ -15,32 +15,30 @@ import type {
 export function useFieldBuilder(initialFields: Field[]) {
   const [fields, setFields] = useState(initialFields);
 
-  function addField(parentId: string | null, type: FieldType) {
+  const addField = useCallback((parentId: string | null, type: FieldType) => {
     setFields((current) => insertField(current, parentId, createField(type)));
-  }
+  }, []);
 
-  function editField(id: string, patch: FieldPatch) {
+  const editField = useCallback((id: string, patch: FieldPatch) => {
     setFields((current) => updateField(current, id, patch));
-  }
+  }, []);
 
-  function deleteField(id: string) {
+  const deleteField = useCallback((id: string) => {
     setFields((current) => removeField(current, id));
-  }
+  }, []);
 
-  function reorderField(id: string, direction: -1 | 1) {
+  const reorderField = useCallback((id: string, direction: -1 | 1) => {
     setFields((current) => moveField(current, id, direction));
-  }
+  }, []);
 
-  function replaceFields(nextFields: Field[]) {
+  const replaceFields = useCallback((nextFields: Field[]) => {
     setFields(nextFields);
-  }
+  }, []);
 
-  return {
-    fields,
-    addField,
-    editField,
-    deleteField,
-    reorderField,
-    replaceFields,
-  };
+  const actions = useMemo(
+    () => ({ addField, editField, deleteField, reorderField, replaceFields }),
+    [addField, editField, deleteField, reorderField, replaceFields],
+  );
+
+  return { fields, actions };
 }
