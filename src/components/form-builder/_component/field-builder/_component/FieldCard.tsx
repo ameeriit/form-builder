@@ -1,7 +1,59 @@
 import { memo, useCallback } from 'react';
 import { AddFieldActions } from '@/components/form-builder/_component/field-builder/_component/AddFieldActions';
 import { useFieldActions } from '@/components/form-builder/_component/field-builder/FieldBuilderProvider';
-import type { Field, FieldType } from '@/components/form-builder/_component/field-builder/types';
+import type {
+  Field,
+  FieldPatch,
+  FieldType,
+  NumberField,
+} from '@/components/form-builder/_component/field-builder/types';
+
+function NumberRange({
+  field,
+  onChange,
+}: {
+  field: NumberField;
+  onChange: (patch: FieldPatch) => void;
+}) {
+  const maxIsTooSmall =
+    field.min !== undefined && field.max !== undefined && field.max <= field.min;
+
+  return (
+    <div className="field-card__range">
+      <label>
+        Min
+        <input
+          type="number"
+          value={field.min ?? ''}
+          onChange={(event) =>
+            onChange({
+              min: event.target.value === '' ? undefined : Number(event.target.value),
+            })
+          }
+        />
+      </label>
+      <label>
+        Max
+        <input
+          type="number"
+          value={field.max ?? ''}
+          aria-invalid={maxIsTooSmall || undefined}
+          aria-describedby={maxIsTooSmall ? `${field.id}-max-error` : undefined}
+          onChange={(event) =>
+            onChange({
+              max: event.target.value === '' ? undefined : Number(event.target.value),
+            })
+          }
+        />
+      </label>
+      {maxIsTooSmall ? (
+        <p id={`${field.id}-max-error`} className="field-card__error">
+          Max must be greater than min.
+        </p>
+      ) : null}
+    </div>
+  );
+}
 
 type FieldCardProps = {
   field: Field;
@@ -65,32 +117,7 @@ export const FieldCard = memo(function FieldCard({
       </label>
 
       {field.type === 'number' ? (
-        <div className="field-card__range">
-          <label>
-            Min
-            <input
-              type="number"
-              value={field.min ?? ''}
-              onChange={(event) =>
-                editField(field.id, {
-                  min: event.target.value === '' ? undefined : Number(event.target.value),
-                })
-              }
-            />
-          </label>
-          <label>
-            Max
-            <input
-              type="number"
-              value={field.max ?? ''}
-              onChange={(event) =>
-                editField(field.id, {
-                  max: event.target.value === '' ? undefined : Number(event.target.value),
-                })
-              }
-            />
-          </label>
-        </div>
+        <NumberRange field={field} onChange={(patch) => editField(field.id, patch)} />
       ) : null}
 
       {field.type === 'group' ? (

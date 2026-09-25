@@ -67,6 +67,14 @@
   gap: 1rem;
 }
 
+.field-card__error {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #c62828;
+}
+
 .field-card__range input {
   width: 5rem;
 }
