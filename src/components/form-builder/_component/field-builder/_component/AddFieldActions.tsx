@@ -1,4 +1,5 @@
 import type { FieldType } from '@/components/form-builder/_component/field-builder/types';
+import { Button } from '@/components/ui/Button';
 
 const fieldTypes: FieldType[] = ['text', 'number', 'group'];
 
@@ -10,9 +11,9 @@ export function AddFieldActions({ onAdd }: AddFieldActionsProps) {
   return (
     <div className="field-list__add">
       {fieldTypes.map((type) => (
-        <button key={type} type="button" onClick={() => onAdd(type)}>
+        <Button key={type} onClick={() => onAdd(type)}>
           + {type}
-        </button>
+        </Button>
       ))}
     </div>
   );

@@ -2,6 +2,7 @@ import { PreviewField } from '@/components/form-builder/_component/aside/_compon
 import { usePreviewForm } from '@/components/form-builder/_component/aside/_component/preview/usePreviewForm';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
 import '@/components/form-builder/_component/aside/_component/preview/FormPreview.css';
+import { Button } from '@/components/ui/Button';
 
 type FormPreviewProps = {
   fields: Field[];
@@ -26,7 +27,7 @@ export function FormPreview({ fields }: FormPreviewProps) {
               onBlur={handleBlur}
             />
           ))}
-          <button type="submit">Submit</button>
+          <Button type="submit">Submit</Button>
         </form>
       )}
     </div>

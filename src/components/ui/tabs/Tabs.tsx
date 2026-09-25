@@ -1,5 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import '@/components/ui/tabs/Tabs.css';
+import { Button } from '@/components/ui/Button';
 
 type TabItem = {
   id: string;
@@ -20,15 +21,14 @@ export function Tabs({ label, tabs }: TabsProps) {
     <div className="tabs">
       <div className="tabs__list" role="tablist" aria-label={label}>
         {tabs.map((tab) => (
-          <button
+          <Button
             key={tab.id}
-            type="button"
             role="tab"
             aria-selected={tab.id === selected?.id}
             onClick={() => setSelectedId(tab.id)}
           >
             {tab.label}
-          </button>
+          </Button>
         ))}
       </div>
       <div role="tabpanel">{selected?.content}</div>

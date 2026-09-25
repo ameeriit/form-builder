@@ -5,6 +5,7 @@ import {
 } from '@/components/form-builder/_component/aside/_component/json/json-fields';
 import '@/components/form-builder/_component/aside/_component/json/FormJson.css';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
+import { Button } from '@/components/ui/Button';
 
 type FormJsonProps = {
   fields: Field[];
@@ -44,9 +45,7 @@ export function FormJson({ fields, onImport }: FormJsonProps) {
       <section className="form-json__section" aria-labelledby="json-export-heading">
         <div className="form-json__heading">
           <h2 id="json-export-heading">Export</h2>
-          <button type="button" onClick={handleCopy}>
-            {copied ? 'Copied' : 'Export'}
-          </button>
+          <Button onClick={handleCopy}>{copied ? 'Copied' : 'Export'}</Button>
         </div>
         <textarea readOnly aria-label="Exported form configuration" value={exported.json} />
         {exported.problem ? <p className="form-json__error">{exported.problem}</p> : null}
@@ -59,9 +58,7 @@ export function FormJson({ fields, onImport }: FormJsonProps) {
           onChange={(event) => setImportText(event.target.value)}
         />
         {error ? <p className="form-json__error">{error}</p> : null}
-        <button type="button" onClick={handleImport}>
-          Import
-        </button>
+        <Button onClick={handleImport}>Import</Button>
       </section>
     </div>
   );

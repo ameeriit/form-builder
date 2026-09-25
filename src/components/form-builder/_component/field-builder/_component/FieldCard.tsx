@@ -7,6 +7,7 @@ import type {
   FieldType,
   NumberField,
 } from '@/components/form-builder/_component/field-builder/types';
+import { Button } from '@/components/ui/Button';
 
 function NumberRange({
   field,
@@ -85,25 +86,25 @@ export const FieldCard = memo(function FieldCard({
           />
         </div>
         <div className="field-card__actions">
-          <button
-            type="button"
+          <Button
+            isIcon
             aria-label="Move up"
             disabled={index === 0}
             onClick={() => reorderField(field.id, -1)}
           >
             ↑
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            isIcon
             aria-label="Move down"
             disabled={index === count - 1}
             onClick={() => reorderField(field.id, 1)}
           >
             ↓
-          </button>
-          <button type="button" aria-label="Delete" onClick={() => deleteField(field.id)}>
+          </Button>
+          <Button isIcon aria-label="Delete" onClick={() => deleteField(field.id)}>
             ×
-          </button>
+          </Button>
         </div>
       </header>
 
