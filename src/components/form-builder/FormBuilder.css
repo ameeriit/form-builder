@@ -17,6 +17,7 @@
 @media (min-width: 64rem) {
   .form-builder__layout {
     grid-template-columns: minmax(24rem, max-content) minmax(16rem, 1fr);
+    align-items: stretch;
   }
 
   .form-builder__layout > .builder-panel {

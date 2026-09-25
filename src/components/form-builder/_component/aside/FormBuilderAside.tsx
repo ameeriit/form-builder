@@ -1,41 +1,28 @@
-import { useState } from 'react';
 import { FormJson } from '@/components/form-builder/_component/aside/_component/json/FormJson';
 import { FormPreview } from '@/components/form-builder/_component/aside/_component/preview/FormPreview';
 import '@/components/form-builder/_component/aside/FormBuilderAside.css';
 import type { Field } from '@/components/form-builder/_component/field-builder/types';
-
-type AsideTab = 'preview' | 'json';
+import { Tabs } from '@/components/ui/tabs/Tabs';
 
 type FormBuilderAsideProps = {
   fields: Field[];
+  onImport: (fields: Field[]) => void;
 };
 
-export function FormBuilderAside({ fields }: FormBuilderAsideProps) {
-  const [tab, setTab] = useState<AsideTab>('preview');
-
+export function FormBuilderAside({ fields, onImport }: FormBuilderAsideProps) {
   return (
     <section className="builder-aside">
-      <div className="builder-aside__tabs" role="tablist" aria-label="Form output">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === 'preview'}
-          onClick={() => setTab('preview')}
-        >
-          Preview
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === 'json'}
-          onClick={() => setTab('json')}
-        >
-          JSON
-        </button>
-      </div>
-      <div role="tabpanel">
-        {tab === 'preview' ? <FormPreview fields={fields} /> : <FormJson fields={fields} />}
-      </div>
+      <Tabs
+        label="Form output"
+        tabs={[
+          { id: 'preview', label: 'Preview', content: <FormPreview fields={fields} /> },
+          {
+            id: 'json',
+            label: 'JSON',
+            content: <FormJson fields={fields} onImport={onImport} />,
+          },
+        ]}
+      />
     </section>
   );
 }

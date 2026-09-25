@@ -1,10 +1,67 @@
 .form-json {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.form-json__section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form-json__heading {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-json h2 {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.form-json pre,
+.form-json textarea {
   margin: 0;
   padding: 0.75rem;
-  overflow: auto;
+  font: inherit;
   font-size: 0.8125rem;
   line-height: 1.5;
+  color: inherit;
   background: #fff;
   border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
   border-radius: 0.5rem;
+}
+
+.form-json pre {
+  max-height: 16rem;
+  overflow: auto;
+}
+
+.form-json textarea {
+  min-height: 10rem;
+  resize: vertical;
+}
+
+.form-json button {
+  justify-self: start;
+  padding: 0.3rem 0.55rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
+  border-radius: 0.35rem;
+}
+
+.form-json__heading button {
+  justify-self: auto;
+}
+
+.form-json__error {
+  margin: 0;
+  font-style: italic;
 }

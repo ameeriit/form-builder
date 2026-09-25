@@ -31,11 +31,16 @@ export function useFieldBuilder(initialFields: Field[]) {
     setFields((current) => moveField(current, id, direction));
   }
 
+  function replaceFields(nextFields: Field[]) {
+    setFields(nextFields);
+  }
+
   return {
     fields,
     addField,
     editField,
     deleteField,
     reorderField,
+    replaceFields,
   };
 }

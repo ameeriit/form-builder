@@ -15,7 +15,7 @@ export function FormBuilder() {
           <FormBuilderHeader />
           <div className="form-builder__layout">
             <FieldBuilder {...fieldBuilder} />
-            <FormBuilderAside fields={fieldBuilder.fields} />
+            <FormBuilderAside fields={fieldBuilder.fields} onImport={fieldBuilder.replaceFields} />
           </div>
         </div>
       </Container>
