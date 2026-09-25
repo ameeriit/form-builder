@@ -1,6 +1,6 @@
 {
   "name": "configurable-form-builder",
-  "description": "ConfigurableFormBuilder — compose and render forms from a shared configuration.",
+  "description": "Interactive form builder with live preview and JSON configuration support.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

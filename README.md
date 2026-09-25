@@ -1,121 +1,44 @@
-# ConfigurableFormBuilder
+# Configurable Form Builder
 
-A lightweight, interactive React component that allows users to construct forms dynamically, configure field properties, manage recursively nested groups, preview the form live with real-time validation, and export/import the form configuration as JSON.
+An interactive form builder built with React 19, TypeScript, and Vite. Users can construct forms dynamically, configure field rules, nest groups to any depth, preview the form with live validation, and import/export the configuration as JSON.
 
-Built with **React 19**, **TypeScript**, and **Vite**, featuring a **modular Vanilla CSS design system** and a **lightweight, dependency-free state and validation engine**.
+## Quick Start
 
----
+### Prerequisites
+- Node.js 20+
+- pnpm (or npm / yarn)
+
+### Installation & Run
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Typecheck and build for production
+pnpm build
+
+# Run linting, formatting, and type checks
+pnpm check
+```
 
 ## Features
 
-### 1. Supported Field Types
-- **`text`**: Standard text input.
-- **`number`**: Numeric input with optional `min` and `max` constraints.
-- **`group`**: Logical container that holds child fields and can be **recursively nested to any depth**.
+- **Field Types**: Supports `text`, `number` (with optional `min` and `max` constraints), and `group` fields.
+- **Arbitrary Nesting**: Groups can contain any combination of text, number, or other groups to any depth.
+- **Hierarchy Controls**: Reorder fields up and down within their parent container or delete fields at any level.
+- **Live Preview & Validation**:
+  - Real-time synchronization between the builder and preview canvas.
+  - Validates required inputs, numeric types, and min/max ranges on blur and form submit.
+  - Accessible error indicators and field association (`aria-invalid`, `aria-describedby`).
+  - Submission status feedback.
+- **JSON Import / Export**:
+  - Export current form configuration with one-click clipboard copy.
+  - Import JSON schemas with automated validation and error reporting for invalid structures.
 
-### 2. Field Property Editing & Hierarchy Controls
-- **Common Properties**:
-  - **Label**: Editable string label.
-  - **Required**: Boolean toggle enforcing required validation.
-- **Type-Specific Properties**:
-  - **Number**: Optional `min` and `max` range values (flags an inline error if `max <= min`).
-  - **Group**: Dynamic array of child fields (`text`, `number`, or sub-`group`).
-- **Hierarchy Manipulation**:
-  - **Reorder**: Move fields up (`↑`) and down (`↓`) within their parent group (automatically disabled at array boundaries).
-  - **Delete**: Instant deletion (`×`) at root or any nested level.
-
-### 3. Live Form Preview & Validation
-- **Immediate Synchronisation**: The preview panel updates instantly as the schema changes while preserving active input values.
-- **Built-in Validation**:
-  - Validates required fields on blur and on form submit.
-  - Evaluates group requirements (ensuring child fields are satisfied).
-  - Predictable handling for invalid data: entering non-numeric text in a number field immediately flags `"Enter a number"`.
-  - Enforces `min` and `max` constraints with clear descriptive error messages.
-  - Accessible feedback with visual indicators (`*`), `aria-invalid`, and `aria-describedby` associations.
-  - Success message upon valid form submission.
-
-### 4. Configuration Export & Import
-- **Export**: Generates clean, formatted JSON in a readonly textarea with one-click clipboard copy (with temporary `"Copied"` feedback).
-- **Import**: Allows pasting a JSON configuration to reconstruct the form structure.
-  - Supports both `{ "fields": [...] }` object and raw `[...]` array formats.
-  - Automatically validates types, structure, and constraints.
-  - Forgiving schema: auto-generates unique IDs if missing or duplicate.
-
----
-
-## Architecture & Engineering Highlights
-
-- **Framework**: React 19 + TypeScript + Vite.
-- **Zero External Runtime Dependencies**: Relies purely on native React 19 primitives, keeping the production bundle minimal (~72 kB gzipped including React runtime).
-- **State Orchestration**: Powered by split React Contexts (`FieldsContext` and `FieldActionsContext`), ensuring action-dispatching controls do not trigger unnecessary canvas re-renders.
-- **Native Form & Validation Engine**: Encapsulated in the `usePreviewForm` hook to handle controlled values, blur states, recursive validation, and error states without external library overhead.
-- **Modular Vanilla CSS Design System**: Built with CSS custom properties (variables), responsive grid/flexbox layouts, and accessible interaction states without framework lock-in.
-- **Performance Optimizations**:
-  - React `memo` paired with custom equality comparator (`previewFieldPropsAreEqual`) prevents unaffected input re-renders.
-  - Stable function references (`useCallback`) and memoized calculations (`useMemo`).
-- **Clean Component Encapsulation**: Modular atomic UI primitives in `@/components/ui` (`Button`, `Input`, `Tabs`, `Container`) with centralized barrel exports.
-- **Code Quality & Tooling**: Static typing with TypeScript and ultra-fast formatting and linting via **Biome**.
-
----
-
-## Project Structure
-
-```
-src/
-├── App.tsx                                 # Application entry component
-├── main.tsx                                # React DOM mount
-├── index.css                               # Global tokens, reset, and base styles
-├── components/
-│   ├── ui/                                 # Reusable atomic UI design system
-│   │   ├── index.ts                        # Barrel export (@/components/ui)
-│   │   ├── Container.tsx                   # Max-width layout wrapper
-│   │   ├── button/                         # Button component & variants (default, primary, icon)
-│   │   │   ├── Button.tsx
-│   │   │   └── Button.css
-│   │   ├── input/                          # Unified input (text, number, checkbox with label & error)
-│   │   │   ├── Input.tsx
-│   │   │   └── Input.css
-│   │   └── tabs/                           # Accessible tab switcher
-│   │       ├── Tabs.tsx
-│   │       └── Tabs.css
-│   └── form-builder/                       # Feature module
-│       ├── index.ts                        # Module entry point (@/components/form-builder)
-│       ├── ConfigurableFormBuilder.tsx     # Main container component
-│       ├── ConfigurableFormBuilder.css     # Responsive builder grid layout
-│       └── _component/                     # Encapsulated private subcomponents
-│           ├── header/                     # Application header
-│           │   ├── FormBuilderHeader.tsx
-│           │   └── FormBuilderHeader.css
-│           ├── field-builder/              # Left canvas: field creation & tree controls
-│           │   ├── FieldBuilder.tsx
-│           │   ├── FieldBuilder.css
-│           │   ├── FieldBuilderProvider.tsx# Context state provider
-│           │   ├── useFieldBuilder.ts      # Builder tree state management hook
-│           │   ├── fields.ts               # Pure tree manipulation utilities (immutable)
-│           │   ├── types.ts                # TypeScript data models
-│           │   └── _component/
-│           │       ├── FieldCard.tsx       # Recursive field card with controls
-│           │       └── AddFieldActions.tsx # Quick-add action buttons
-│           └── aside/                      # Right panel: Tabbed output
-│               ├── FormBuilderAside.tsx
-│               ├── FormBuilderAside.css
-│               └── _component/
-│                   ├── preview/            # Live Preview tab
-│                   │   ├── FormPreview.tsx
-│                   │   ├── FormPreview.css
-│                   │   ├── usePreviewForm.ts# Preview form state & validation hook
-│                   │   ├── preview-fields.ts# Validation rules and logic
-│                   │   └── _component/
-│                   │       └── PreviewField.tsx# Recursive form renderer
-│                   └── json/               # JSON Export / Import tab
-│                       ├── FormJson.tsx
-│                       ├── FormJson.css
-│                       └── json-fields.ts  # Serialization and parsing logic
-```
-
----
-
-## Example Form Configuration JSON
+## Schema Example
 
 ```json
 {
@@ -137,7 +60,7 @@ src/
     {
       "id": "3",
       "type": "group",
-      "label": "Address Details",
+      "label": "Address",
       "required": true,
       "fields": [
         {
@@ -148,23 +71,9 @@ src/
         },
         {
           "id": "5",
-          "type": "group",
-          "label": "Regional",
-          "required": false,
-          "fields": [
-            {
-              "id": "6",
-              "type": "text",
-              "label": "City",
-              "required": true
-            },
-            {
-              "id": "7",
-              "type": "number",
-              "label": "Postal Code",
-              "required": true
-            }
-          ]
+          "type": "text",
+          "label": "City",
+          "required": true
         }
       ]
     }
@@ -172,39 +81,8 @@ src/
 }
 ```
 
----
+## Technical Notes
 
-## Getting Started
-
-### Prerequisites
-- Node.js `20+`
-- `pnpm` (or `npm`)
-
-### Installation
-
-```bash
-pnpm install
-```
-
-### Development Server
-
-Start the local Vite development server:
-
-```bash
-pnpm dev
-```
-
-### Production Build
-
-Typecheck and create the optimized production bundle:
-
-```bash
-pnpm build
-```
-
-### Code Quality & Formatting
-
-```bash
-pnpm run check    # Runs Biome lint, format check, and TypeScript typechecking
-pnpm run ready    # Formats, fixes lint issues, and verifies all checks pass
-```
+- **State Management**: Form state is split between state and action dispatch contexts (`FieldsContext` and `FieldActionsContext`) so that dispatching field mutations does not cause unnecessary re-renders across unaffected components.
+- **Styling**: Vanilla CSS using custom properties (CSS variables) and responsive flex/grid layouts without third-party UI framework dependencies.
+- **Tooling**: Built on Vite with TypeScript, using Biome for code formatting and linting.
